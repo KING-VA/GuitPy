@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>GuitPy</title>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="Favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="Favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="Favicon/favicon-16x16.png">
+	<link rel="manifest" href="Favicon/site.webmanifest">
+
+	<!-- Including GuitPy -->
+	<script type="text/javascript" src="GuitPy.js">
+	</script>
+
+	<!-- jQuery Plugin -->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+	 crossorigin="anonymous">
+	</script>
+	<script type="text/javascript" src="jquery.GuitPy.js">
+	</script>
+
+	<!-- Including GuitPySynth -->
+	<script type="text/javascript" src="swfobject.js">
+	</script>
+	<script type="text/javascript" src="GuitPySynth.js">
+	</script>
+
+	<!-- GuitPySynth Plugin -->
+	<script type="text/javascript" src="jquery.GuitPy.GuitPySynth.js">
+	</script>
+
+	<!-- Demo Styles and Scripts -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	 crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+	 crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css"
+	 integrity="sha256-6b+gYy3DG/roKdQiHqp1FJYFQkaZdM6ohUpGyFyUAGk=" crossorigin="anonymous" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js" integrity="sha256-dd5QxcG/E8fb/H/iIQann2y2EDS0nEMVI56yYWFeeW4="
+	 crossorigin="anonymous">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+	 crossorigin="anonymous">
+	</script>
+
+	<link rel="stylesheet" href="demo.css" />
+	<style>
+		.inv {
+			display: none;
+		}
+	</style>
+	<style type="text/css">
+		.barCursor {
+			/* Defines the color of the bar background when a bar is played */
+			opacity: 0.25;
+			background: #FFF200;
+		}
+
+		.selectionWrapper div {
+			/* Defines the color of the selection background */
+			opacity: 0.1;
+			background: #4040FF;
+		}
+
+		.beatCursor {
+			/* Defines the beat cursor */
+			opacity: 0.75;
+			background: #4040FF;
+		}
+
+		.atHighlight * {
+			/* Defines the color of the music symbols when they are being played (svg) */
+			fill: #0078ff;
+		}
+
+
+		/* Track selector */
+		#trackList li {
+			padding: 5px;
+		}
+
+		#trackList .btn {
+			background: none;
+			outline: none;
+		}
+
+		#trackList .solo.checked {
+			background: #426d9d;
+			color: #FFF;
+		}
+
+		#trackList .mute.checked {
+			background: #c9302c;
+			color: #FFF;
+		}
+
+		#trackList .title {
+			cursor: pointer;
+		}
+
+		#trackList .title:hover {
+			color: #426d9d;
+		}
+
+		#trackList .btn-group {}
+
+		#trackList .slider-handle {
+			-moz-transform: scale(0.5, 0.5);
+			-webkit-transform: scale(0.5, 0.5);
+			transform: scale(0.5, 0.5);
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Toolbar containing the buttons -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">
+					<img alt="GuitPy" src="Logo/GuitPy_black_big.png" />
+              Player
+          </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <!-- Player controls -->
+          <ul class="nav navbar-nav">
+            <li><button id="playPause" disabled="disabled" class="btn btn-link navbar-btn glyphicon glyphicon-play"></button></li>
+            <li><button id="stop" disabled="disabled" class="btn btn-link navbar-btn glyphicon glyphicon-stop"></button></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Speed: <span id="playbackSpeed">100%</span> <span class="caret"></span></a>
+              <ul class="dropdown-menu" id="playbackSpeedSelector">
+                <li><a href="#" data-value="0.25">25%</a></li>
+                <li><a href="#" data-value="0.5">50%</a></li>
+                <li><a href="#" data-value="0.6">60%</a></li>
+                <li><a href="#" data-value="0.7">70%</a></li>
+                <li><a href="#" data-value="0.8">80%</a></li>
+                <li><a href="#" data-value="0.9">90%</a></li>
+                <li><a href="#" data-value="1">100%</a></li>
+                <li><a href="#" data-value="1.1">110%</a></li>
+                <li><a href="#" data-value="1.25">125%</a></li>
+                <li><a href="#" data-value="1.5">150%</a></li>
+                <li><a href="#" data-value="2">200%</a></li>
+              </ul>
+            </li>
+            <li><a href="#" id="looping" class="glyphicon glyphicon-refresh"></a></li>
+            <li><a href="#" id="metronome" class="glyphicon glyphicon-edit" data-toggle="tooltip" data-placement="bottom" title="Metronome"></a></li>
+           
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <!-- Loading indicator for soundfont -->
+            <li id="soundFontProgressMenuItem">
+                <p class="navbar-text">SoundFont</p>
+                <div class="progress">
+                  <div class="progress-bar" id="soundFontProgress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    0%
+                  </div>
+                </div>
+            </li>
+            <!-- Print Button -->
+            <li><a href="#" id="print">Print</a></li>
+            <!-- Track Selector -->
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="currentTrack">
+                    Tracks
+                </a>
+                <ul class="dropdown-menu" id="trackList">
+                </ul>
+            </li>          
+            <!-- Buttons for changing the layout -->
+            <li class="active"><a href="#" id="page" data-layout="page" data-scrollmode="vertical">Page</a></li>
+            <li><a href="#" id="horizontalBarwise" data-layout="horizontal" data-scrollmode="horizontal-bar">Horizontal (Barwise)</a></li>
+            <li><a href="#" id="horizontalOffscreen" data-layout="horizontal" data-scrollmode="horizontal-offscreen">Horizontal (Offscreen)</a></li>
+            <li><a href="Upload/upload.html" id="Upload" >Upload File</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"  id="target">
+                    Choosing File
+                </a>
+                <ul class="dropdown-menu" id="trackList">
+                
+                  <li href="#File1" value="File1">Capricho Arabe</li>
+                  <li href="#File2"
+                  value="File2">Canon Rock</li>
+                  <li href="#File3" value="File3">NightWish</li>
+                  <li href="#File4"
+                  value="File4">Romance</li>
+               </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- 
+    data-player enables the player 
+    data-player-offset specifies the additional offset to apply when scrolling. 
+                       in this sample we scroll 70px up for vertical layouts because the menubar would overlap the tablature otherwise. 
+                       the 10px are to have a small horizontal padding. 
+    -->
+    <!--  data-tracks="3" -->
+    <div id="GuitPy" class="File1" data-file="Files/Canon-Rock.gp5" 
+    data-player="default.sf2" data-player-offset="[-10,-70]"></div>
+
+    <div id="GuitPy"  class="inv File2" data-file="Files/Capricho-Arabe.gp3" 
+    data-player="default.sf2" data-player-offset="[-10,-70]"></div>
+
+    <div id="GuitPy" class="inv File3" data-file="Files/NightWish.gp5" 
+    data-player="default.sf2" data-player-offset="[-10,-70]"></div>
+
+    <div id="GuitPy" class="inv File4" data-file="Files/Romance.gp5" 
+    data-player="default.sf2" data-player-offset="[-10,-70]"></div>
+
+    <script>
+            window.onload = function () {
+              document
+                .getElementById('target')
+                .addEventListener('change', function () {
+                    'use strict';
+                    var vis = document.querySelector('.vis'),   
+                        target = document.getElementsByClassName(this.value)[0];
+                    if (vis !== null) {
+                        vis.className = 'inv';
+                    }
+                    if (target !== null ) {
+                        target.className = 'vis';
+                    }
+            });
+            var event = new Event('change');
+document.getElementById('target').dispatchEvent(event);
+}
+        </script>
+    <script type="text/javascript">
+        
+        var at = $('#GuitPy');
+        
+        //
+        // 1. setup events        
+        at.on('GuitPy.soundFontLoad', function(e, progress) {
+            var percentage = ((progress.loaded / progress.total) * 100)|0;
+            $('#soundFontProgress').css('width', percentage + '%').text(percentage + '%');
+        });
+        at.on('GuitPy.soundFontLoaded', function() {
+            $('#soundFontProgressMenuItem').hide();
+        });
+        at.on('GuitPy.playerReady', function() {
+            $('#loadingInfo').hide();
+            $('#playPause').prop('disabled', false).removeAttr('disabled');            
+            $('#stop').prop('disabled', false).removeAttr('disabled');            
+            $('#looping').prop('disabled', false).removeAttr('disabled');            
+            $('#metronome').prop('disabled', false).removeAttr('disabled');            
+            updateControls();
+        });
+        at.on('GuitPy.playerStateChanged', function() {
+            updateControls();
+        });
+        
+        //
+        // 2. Load GuitPy 
+        at.GuitPy(); 
+        
+        //
+        // 3. Setup UI controls and use API to control the playback 
+        
+        $('#print').click(function() { 
+            at.GuitPy('print');
+        });
+        
+        $('#playPause').click(function() { 
+            at.GuitPy('playPause');
+        });
+        
+        $('#stop').click(function() { 
+            at.GuitPy('stop');
+        });
+        
+        $('#looping').click(function(e) {
+            e.preventDefault();
+            var looping = !at.GuitPy('loop');
+            at.GuitPy('loop', looping);
+            if(looping) {
+                $('#looping').closest('li').addClass('active');
+            }
+            else {
+                $('#looping').closest('li').removeClass('active');
+            }
+        });
+        
+        $('#metronome').click(function(e) {
+            e.preventDefault();
+            var metronomeVolume = at.GuitPy('metronomeVolume');
+            if(metronomeVolume == 0) {
+                at.GuitPy('metronomeVolume', 1);
+                $('#metronome').closest('li').addClass('active');
+            }
+            else {
+                at.GuitPy('metronomeVolume', 0);
+                $('#metronome').closest('li').removeClass('active');
+            }
+        });
+        
+        $('#playbackSpeedSelector a').click(function() {
+            var playbackSpeed = $(this).data('value');
+            at.GuitPy('playbackSpeed', playbackSpeed);
+            $('#playbackSpeed').text($(this).text());
+        }); 
+        
+        function updateControls() {
+            var playerState = at.GuitPy('playerState');
+            switch(playerState) {
+                case 0: // stopped/paused
+                $('#playPause').removeClass('glyphicon-pause').addClass('glyphicon-play');
+                break;
+                case 1: // playing
+                $('#playPause').removeClass('glyphicon-play').addClass('glyphicon-pause');
+                break;
+            }
+        }     
+        
+        $('a[data-layout]').click(function(e) {
+            $('a[data-layout]').closest('li').removeClass('active');
+            $(this).closest('li').addClass('active');
+            
+            e.preventDefault();
+            
+            var layout = $(this).data('layout');
+            var scrollmode = $(this).data('scrollmode');
+            
+            at.removeClass('horizontal page');
+            at.addClass(layout);
+            
+            // update renderer
+            at.GuitPy('layout', layout);
+            
+            // update player
+            at.GuitPy('autoScroll', scrollmode);
+            $('body,html').animate({
+                scrollTop: 0 
+            }, 300);
+        });
+    
+        //
+        // 4. Track selector
+        var tracks = [];
+        // keep dropdown open
+        $('#trackList').on('click', function(e) {
+            e.stopPropagation();
+        });
+        at.on('GuitPy.loaded', function(e, score) {
+            var trackList = $('#trackList');
+            trackList.empty();
+            
+            for( var i = 0; i < score.Tracks.length; i++) {
+                // build list item for track
+                var li = $('<li></li>')
+                    .data('track', score.Tracks[i].Index)
+                ;
+                
+                // show/hide button and track title
+                var title = $('<div class="title"></div>');
+                li.append(title);
+                
+                var showHide = $('<i class="glyphicon glyphicon-eye-close showHide"></i>');
+                title.append(showHide);
+                title.append(score.Tracks[i].Name);
+                title.on('click', function(e) {
+                    var track = $(this).closest('li').data('track');
+                    tracks = [track];
+                    $(this).find('.showHide').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+                    
+                    // render new tracks
+                    at.GuitPy('tracks', tracks);   
+                });
+                
+                // solo and mute buttons
+                var soloMute = $('<div class="btn-group btn-group-xs"></div>');
+                var solo = $('<button type="button" class="btn btn-default solo">Solo</button>');
+                solo.on('click', function(e) {
+                    $(this).toggleClass('checked');
+                    var isSolo = $(this).hasClass('checked');
+                    var track = $(this).closest('li').data('track');
+                    at.GuitPy('soloTrack', track, isSolo);                    
+                });
+                
+                var mute = $('<button type="button" class="btn btn-default mute">Mute</button>');
+                mute.on('click', function(e) {
+                    $(this).toggleClass('checked');
+                    var isMute = $(this).hasClass('checked');
+                    var track = $(this).closest('li').data('track');
+                    at.GuitPy('muteTrack', track, isMute);                    
+                });                
+                soloMute.append(solo).append(mute);
+                li.append(soloMute);
+                
+                // volume slider
+                var volume = $('<input type="text" />')
+                    .on('slide', function(e) {
+                        var track = $(this).closest('li').data('track');
+                        at.GuitPy('trackVolume', track, e.value);
+                    });
+                li.append(volume);
+                volume.slider({
+                    min: 0,
+                    max: 16,
+                    step: 1,
+                    value: score.Tracks[i].PlaybackInfo.Volume,
+                    handle: 'square'
+                })
+                
+                trackList.append(li);
+            }
+        });
+        at.on('GuitPy.rendered', function(e) {
+            // load track indices
+            tracks = at.GuitPy('tracks');
+            for(var i = 0; i < tracks.length; i++) {
+                tracks[i] = tracks[i].Index;
+            }
+            
+            // check checkboxes 
+            $('#trackList li').each(function() {
+                var track = $(this).data('track');
+                var isSelected = tracks.indexOf(track) > -1;
+                if(isSelected) {
+                    $(this).find('.showHide').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+                }
+                else {
+                    $(this).find('.showHide').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+                }
+            });       
+        });
+
+    
+    </script>
+    
+</body>
+</html>

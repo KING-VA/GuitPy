@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>GuitPy</title>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="../Favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../Favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../Favicon/favicon-16x16.png">
+	<link rel="manifest" href="../Favicon/site.webmanifest">
+
+	<!-- Demo Styles and Scripts -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	 crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+	 crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css"
+	 integrity="sha256-6b+gYy3DG/roKdQiHqp1FJYFQkaZdM6ohUpGyFyUAGk=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="../demo.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="upload.css" />
+</head>
+
+<body>
+	<!-- Toolbar containing the buttons -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">
+					<img alt="GuitPy" src="../Logo/GuitPy_black_big.png" />
+          </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <!-- Player controls -->
+          <ul class="nav navbar-nav">
+            <li> </li>
+            <li><a href="../index.html" id="Home" >Home</a> </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+<legend>File Upload</legend>
+
+<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="3000000" />
+
+<div>
+	<label for="fileselect">Files to upload:</label>
+	<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+	<div id="filedrag">or drop files here</div>
+</div>
+
+<div id="submitbutton">
+	<button type="submit">Upload Files</button>
+</div>
+
+
+<div id="messages">
+<p>Status Messages</p>
+</div>
+<script src="custom.js"></script>
+<script src="upload.js"></script>
+</body>
+</html>
